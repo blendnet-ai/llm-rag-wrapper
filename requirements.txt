@@ -1,0 +1,6 @@
+openai>=1.40.0
+Django==4.2.15
+django-codemirror2==0.2
+django-json-widget==2.0.1
+djangorestframework==3.15.2  
+litellm==1.44.15
