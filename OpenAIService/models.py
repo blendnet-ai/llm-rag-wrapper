@@ -1,7 +1,6 @@
 from django.db import models
 from .enums import Assistant
 
-# Create your models here.
 class OpenAIAssistant(models.Model):
     assistant_id = models.CharField(max_length=500,blank=False)
     name = models.CharField(max_length=50, choices=[(assistant.name, assistant.role_details['name']) for assistant in Assistant])
@@ -43,8 +42,6 @@ class ChatHistory(models.Model):
 
 
 class KnowledgeRepository(models.Model):
-    from DoubtSolving.models import Course, Organization
-
     class SourceType(models.IntegerChoices):
         AZURE_BLOB = 1, "Azure Blob"
         AMAZON_S3 = 2, "Amazon S3"
@@ -52,16 +49,7 @@ class KnowledgeRepository(models.Model):
     
     class Type(models.IntegerChoices):
         COURSE = 1, "Course"
-
-    # Sanchit - todo - Never use type as a field/variable name, it is a python keyword
-    type =  models.IntegerField(choices=Type.choices)  
-    organization = models.ForeignKey(Organization, on_delete=models.CASCADE, to_field='id')
-    #Sanchit - todo - why is API_KEY needed here
-    api_key = models.CharField(max_length=255, blank=True)
-    # Sanchit - todo - Course_ID and Organisation SHOULD NOT BE Fields HERE, Course should have a knowledge repository
-    # And Course should have a foreign key to organisation
-    # because DoubtSolving as a domain should not interfere with RAG/LLM Wrapper
-    course_id = models.ForeignKey(Course, on_delete=models.CASCADE, to_field='id')
+    type =  models.IntegerField(choices=Type.choices)      
     source_path = models.CharField(max_length=255) 
     source_type = models.IntegerField(choices=SourceType.choices) 
     index_path = models.CharField(max_length=255, blank=True) 
@@ -69,13 +57,10 @@ class KnowledgeRepository(models.Model):
     
 
 
-class ContentReference(models.Model):
-    from DoubtSolving.models import Course, Organization
+class ContentReference(models.Model):    
     class ContentType(models.TextChoices):
         PDF = 1, "PDF"
-        YOUTUBE_VIDEO = 2, "YouTube Video"
-    # Sanchit - todo - Course_ID should not be a field here
-    content_type = models.IntegerField(choices=ContentType.choices)
-    course_id = models.ForeignKey(Course, on_delete=models.CASCADE, to_field='id')
+        YOUTUBE_VIDEO = 2, "YouTube Video"    
+    content_type = models.IntegerField(choices=ContentType.choices)    
     path = models.CharField(max_length=255)  
     knowledge_repository_id = models.ForeignKey('KnowledgeRepository', on_delete=models.CASCADE, to_field='id')
