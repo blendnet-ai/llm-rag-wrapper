@@ -6,8 +6,7 @@ import django.db.models.deletion
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('DoubtSolving', '0001_initial'),
+    dependencies = [        
         ('OpenAIService', '0004_tool_context_params'),
     ]
 
@@ -16,14 +15,11 @@ class Migration(migrations.Migration):
             name='KnowledgeRepository',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('type', models.IntegerField(choices=[('1', 'Course')])),
-                ('api_key', models.CharField(blank=True, max_length=255)),
+                ('type', models.IntegerField(choices=[('1', 'Course')])),                
                 ('source_path', models.CharField(max_length=255)),
                 ('source_type', models.IntegerField(choices=[('1', 'Azure Blob'), ('2', 'Amazon S3'), ('3', 'Google Drive')])),
                 ('index_path', models.CharField(blank=True, max_length=255)),
-                ('sas_token', models.CharField(blank=True, max_length=255)),
-                ('course_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='DoubtSolving.course')),
-                ('organization', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='DoubtSolving.organization')),
+                ('sas_token', models.CharField(blank=True, max_length=255)),                
             ],
         ),
         migrations.CreateModel(
@@ -31,8 +27,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('content_type', models.IntegerField(choices=[('1', 'PDF'), ('2', 'YouTube Video')])),
-                ('path', models.CharField(max_length=255)),
-                ('course_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='DoubtSolving.course')),
+                ('path', models.CharField(max_length=255)),                
                 ('knowledge_repository_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='OpenAIService.knowledgerepository')),
             ],
         ),
