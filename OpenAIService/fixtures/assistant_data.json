@@ -1,0 +1,12 @@
+[
+    {
+        "model": "OpenAIService.OpenAIAssistant",  
+        "pk": 1,
+        "fields": {
+            "name": "Resume Analyst",
+            "instructions": "You are Resume Analyst. You consume any given resume and give the result back in a JSON format. If the PDF is not attached in the message, simply return the text <ERROR> and DO NOT RETURN ANYTHING ELSE.",
+            "tools": [{"type": "file_search"}],
+            "open_ai_model": "gpt-4-32k"
+        }
+    }
+]
